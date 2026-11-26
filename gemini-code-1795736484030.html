@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BODXA Student - البوابة الرئيسية</title>
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #3b82f6;
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --accent: #0d9488;
+            --success: #10b981;
+            --danger: #ef4444;
+        }
+        body {
+            font-family: 'Cairo', Tahoma, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+            text-align: right;
+        }
+
+        /* 🌟 شاشة اختيار السنة الدراسية */
+        #welcomeScreen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+        }
+
+        .welcome-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            border-top: 6px solid var(--secondary);
+        }
+        .welcome-card h1 {
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+        .welcome-card .sub-title {
+            color: #64748b;
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .welcome-card h2 {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            font-weight: bold;
+        }
+        .select-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        .select-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+        .select-group select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 2px solid #cbd5e1;
+            font-family: inherit;
+            font-size: 1.1rem;
+            background: #f8fafc;
+            box-sizing: border-box;
+            transition: all 0.3s;
+        }
+        .select-group select:focus {
+            border-color: var(--secondary);
+            outline: none;
+            background: white;
+        }
+        .enter-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+            transition: transform 0.2s;
+        }
+        .enter-btn:hover {
+            transform: translateY(-2px);
+        }
+        .alert-msg {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            display: none;
+        }
+        .alert-error {
+            background: #fee2e2;
+            color: var(--danger);
+            border: 1px solid #f87171;
+        }
+
+        /* 🚀 المنصة الداخلية */
+        #mainPlatform {
+            display: none;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            position: relative;
+        }
+        header h1 { margin: 0; font-size: 2.2rem; }
+        header p { margin: 10px 0 0; font-size: 1.1rem; opacity: 0.9; }
+        
+        .back-home-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+        .back-home-btn:hover { background: rgba(255,255,255,0.4); }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        h3 { color: var(--primary); margin-top: 0; }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #f8fafc;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .message {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+        .message.bot {
+            background: white;
+            color: var(--text);
+            align-self: flex-start;
+            border: 1px solid #e2e8f0;
+            border-bottom-right-radius: 2px;
+        }
+        .message.user {
+            background: var(--secondary);
+            color: white;
+            align-self: flex-end;
+            border-bottom-left-radius: 2px;
+        }
+        .chat-input-area {
+            display: flex;
+            padding: 12px;
+            background: white;
+            border-top: 1px solid #cbd5e1;
+            gap: 10px;
+        }
+        .chat-input-area input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .chat-input-area input:focus {
+            border-color: var(--secondary);
+        }
+        .chat-input-area button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+            transition: background 0.3s;
+        }
+        .chat-input-area button:hover {
+            background: var(--secondary);
+        }
+
+        .lessons-grid {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .lesson-chip {
+            background: white;
+            color: var(--text);
+            border: 2px solid var(--primary);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .lesson-chip:hover, .lesson-chip.selected {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .quiz-config {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        .quiz-config select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .question-box {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-right: 4px solid var(--primary);
+        }
+        .question-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        .option-btn {
+            display: block;
+            width: 100%;
+            text-align: right;
+            background: white;
+            color: var(--text);
+            border: 1px solid #cbd5e1;
+            padding: 10px 15px;
+            margin: 6px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+        .option-btn:hover { background: #e2e8f0; color: var(--primary); }
+        .option-btn.correct { background-color: #d1fae5 !important; border-color: var(--success) !important; color: #065f46 !important; font-weight: bold; }
+        .option-btn.wrong { background-color: #fee2e2 !important; border-color: var(--danger) !important; color: #991b1b !important; }
+    </style>
+</head>
+<body>
+
+    <!-- 🌟 1. شاشة اختيار السنة الدراسية -->
+    <div id="welcomeScreen">
+        <div class="welcome-card">
+            <h1>BODXA Student</h1>
+            <div class="sub-title">منصة شرح المناهج والأسئلة (محتوى رسمي دقيق)</div>
+            <h2>اختر السنة الدراسية للبدء</h2>
+            
+            <div class="select-group">
+                <label for="gradeSelector">السنة الدراسية:</label>
+                <select id="gradeSelector">
+                    <option value="" disabled selected>-- اضغط لاختيار السنة الدراسية --</option>
+                    <option value="1_secondary">أولى ثانوي</option>
+                    <option value="2_secondary">ثانية ثانوي</option>
+                    <option value="3_secondary">ثالثة ثانوي</option>
+                </select>
+            </div>
+
+            <button class="enter-btn" onclick="checkGradeSelection()">دخول المنصة 🚀</button>
+            <div id="alertMessage" class="alert-msg alert-error"></div>
+        </div>
+    </div>
+
+    <!-- 🚀 2. المنصة الداخلية -->
+    <div id="mainPlatform" style="display: none;">
+        <header>
+            <button class="back-home-btn" onclick="returnToHome()">⬅️ تغيير السنة</button>
+            <h1>🚀 BODXA Student</h1>
+            <p>المعلم الذكي - شرح مبسط لدروس المنهج وقاعدة المعرفة الرسمية</p>
+        </header>
+
+        <!-- المعلم الذكي مع قاعدة البيانات المحلية للدروس -->
+        <div class="card">
+            <h3>📖 المعلم الذكي (اسئل عن أي درس أدبي وسيعرض الشرح فوراً)</h3>
+            
+            <div class="lessons-grid">
+                <div class="lesson-chip" onclick="askLesson('العصر الجاهلي')">🏛️ الأدب في العصر الجاهلي</div>
+                <div class="lesson-chip" onclick="askLesson('صدر الإسلام')">🌙 الأدب في عصر صدر الإسلام</div>
+                <div class="lesson-chip" onclick="askLesson('العصر الأموي')">📜 الأدب في العصر الأموي</div>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot">أهلاً بك يا بطل في منصة BODXA Student! 🎓 أنا معلمك الذكي. تم تحميل جميع دروس المنهج رسمياً في الذاكرة. اكتب اسم الدرس (مثل: العصر الجاهلي، صدر الإسلام، العصر الأموي) أو اسأل وسأعرض لك الشرح التفصيلي فوراً!</div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" id="chatInput" placeholder="اكتب اسم الدرس (مثلاً: العصر الجاهلي)..." onkeypress="handleKeyPress(event)">
+                    <button onclick="sendAIChatMessage()">إرسال 🚀</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- بنك الأسئلة والاختبارات التفاعلية -->
+        <div class="card">
+            <h3>📝 بنك الأسئلة والاختبارات التفاعلية</h3>
+            <p>اختر نطاق الاختبار:</p>
+            
+            <div class="lessons-grid">
+                <div class="lesson-chip" onclick="toggleLesson(this, 'العصر الجاهلي')">الاختبار في العصر الجاهلي</div>
+                <div class="lesson-chip" onclick="toggleLesson(this, 'صدر الإسلام')">الاختبار في عصر صدر الإسلام</div>
+                <div class="lesson-chip" onclick="toggleLesson(this, 'العصر الأموي')">الاختبار في العصر الأموي</div>
+            </div>
+
+            <div class="quiz-config">
+                <label for="questionCount">عدد الأسئلة:</label>
+                <select id="questionCount">
+                    <option value="3">3 أسئلة</option>
+                    <option value="5" selected>5 أسئلة</option>
+                </select>
+                <button class="enter-btn" onclick="startCustomQuiz()" style="width: auto; padding: 10px 20px; font-size: 1rem; background-color: var(--accent);">ابدأ الاختبار 🎯</button>
+            </div>
+
+            <div id="quizContainer" style="display:none;" class="quiz-card">
+                <div id="quizHeader" style="margin-bottom: 15px; font-weight: bold; color: var(--primary);"></div>
+                <div id="quizQuestions"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- السكربت البرمجي وقاعدة البيانات المدمجة للدروس -->
+    <script>
+        // قاعدة البيانات الشاملة لشرح الدروس المستخرجة من الملفات الرسمية
+        const lessonsDB = {
+            "العصر الجاهلي": `📚 **الأدب في العصر الجاهلي (عصر ما قبل الإسلام)**[cite: 7]
+1. **البيئة الزمانية:** الفترة التي سبقت ظهور الإسلام بقرن ونصف تقريبا.
+2. **البيئة المكانية:** تقع بلاد العرب في الجنوب الغربي من آسيا، وتضم خمسة أقسام: (الحجاز - تهامة - نجذ - اليمامة - اليمن)[cite: 7].
+3. **البيئة الاجتماعية:** انقسم العرب إلى (حضر) يعيشون في المدن مثل مكة، و(بدو) يرحلون وينتقلون. ويرجع أصل العرب إلى العدنانيين (الشمال) والقحطانيين (الجنوب)[cite: 7].
+4. **أبرز الصفات والمعارف:** الشجاعة، الكرم، الوفاء، الفروسية، الفراسة (الاستدلال بهيئة الإنسان على أخلاقه)، والعلم بالأنساب[cite: 8].
+5. **البيئة الدينية:** عرفوا اليهودية والنصرانية، وانتشرت بينهم الفوضى الدينية بعبادة الأصنام والشمس والقمر، مما مهد لنجاح الدعوة الإسلامية[cite: 8].
+6. **الشعر الجاهلي وسماته:** 
+   - القصيدة الجاهلية لم تعرف وحدة الموضوع، بل بدأت بالغزل وبكاء الأطلال، ثم الوصف، ثم الغرض الرئيس (مدح، هجاء، فخر) وتختم بالحكم[cite: 9].
+   - المعلقات: قصائد طوال قيلت في العصر الجاهلي وتعد من أجود الشعر[cite: 9].
+   - سمات ألفاظه: جودة استعمال الألفاظ، والقصد في المجاز، وعدم تعمد المحسنات البديعية[cite: 9].
+7. **النثر الجاهلي:** فنونه تشمل (الوصايا، الخطب، الحكم، الأمثال)[cite: 10, 11].`,
+
+            "صدر الإسلام": `🌙 **الأدب في عصر صدر الإسلام**[cite: 12]
+1. **الفترة الزمنية:** تبدأ من بعثة الرسول ﷺ إلى انتهاء عصر الخلفاء الراشدين عام 40 هـ[cite: 12].
+2. **أثر الإسلام في حياة العرب:** 
+   - غير حياتهم من الظلم إلى العدل، ومن القسوة إلى اللين والرحمة[cite: 12].
+   - وحد الأمة العربية تحت لواء الإسلام ودستور القرآن[cite: 12].
+   - اتجهت أنظارهم للفتوح الإسلامية لنشر الدين واللغة العربية[cite: 12].
+3. **سمات الشعر في عصر صدر الإسلام:**
+   - تهذيب ألفاظ اللغة بمحاكاة القرآن والسنة وتجنب الغريب[cite: 12].
+   - إدخال أغراض جديدة مثل شعر الفتوح والمغازي[cite: 13].
+4. **النثر في عصر صدر الإسلام:**
+   - ازدهرت الخطابة والرسائل والوصايا والنصائح متأثرة ببلغة القرآن الكريم والحديث الشريف[cite: 13].`,
+
+            "العصر الأموي": `📜 **الأدب في العصر الأموي (من 41 هـ إلى 132 هـ)**[cite: 14]
+1. **أسباب ازدهار الأدب:** كثرة النزاعات والحروب والصراعات الحزبية والسياسية[cite: 14].
+2. **أغراض الشعر الجديدة:**
+   - الشعر السياسي (يعبر عن النزاعات بين الأحزاب كالشيعة والخوارج والأمويين)[cite: 14].
+   - الغزل بنوعيه: البدوي العفيف (جميل بن معمر) والحضري الصريح (عمر بن أبي ربيعة)[cite: 14].
+   - النقائض: معارك شعرية امتزج فيها الفخر بالهجاء بين جرير والفرزدق والأخطل[cite: 14].
+3. **النثر الأموي:**
+   - الخطابة: ازدادت نتيجة الفتن والحروب والفتوحات[cite: 15].
+   - الكتابة والرسائل: ارتفع شأنها لحاجة الدولة واتساع رقعتها، وبرز كتاب ديوان الرسائل مثل عبد الحميد الكاتب[cite: 16].`
+        };
+
+        function checkGradeSelection() {
+            const selector = document.getElementById('gradeSelector');
+            const alertMsg = document.getElementById('alertMessage');
+            const selectedValue = selector.value;
+
+            if (!selectedValue) {
+                alertMsg.style.display = 'block';
+                alertMsg.innerText = '⚠️ من فضلك اختر سنة دراسية أولاً!';
+                return;
+            }
+
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('mainPlatform').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function returnToHome() {
+            document.getElementById('mainPlatform').style.display = 'none';
+            document.getElementById('welcomeScreen').style.display = 'flex';
+            document.getElementById('alertMessage').style.display = 'none';
+            document.getElementById('gradeSelector').value = "";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendAIChatMessage();
+            }
+        }
+
+        function askLesson(lessonName) {
+            document.getElementById('chatInput').value = lessonName;
+            sendAIChatMessage();
+        }
+
+        function sendAIChatMessage() {
+            const inputField = document.getElementById('chatInput');
+            const chatMessages = document.getElementById('chatMessages');
+            const userText = inputField.value.trim();
+
+            if (!userText) return;
+
+            // إضافة رسالة المستخدم
+            const userMsgDiv = document.createElement('div');
+            userMsgDiv.className = 'message user';
+            userMsgDiv.innerText = userText;
+            chatMessages.appendChild(userMsgDiv);
+
+            inputField.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // رسالة البوت والبحث في قاعدة البيانات المحلية
+            const botMsgDiv = document.createElement('div');
+            botMsgDiv.className = 'message bot';
+            
+            setTimeout(() => {
+                let foundContent = null;
+                // البحث الذكي في مفاتيح الدروس
+                for (let key in lessonsDB) {
+                    if (userText.includes(key) || key.includes(userText)) {
+                        foundContent = lessonsDB[key];
+                        break;
+                    }
+                }
+
+                if (foundContent) {
+                    botMsgDiv.innerHTML = foundContent;
+                } else {
+                    botMsgDiv.innerHTML = `عذراً يا بطل! لم أجد شرحاً مطابقاً لـ ("${userText}"). يمكنك الضغط على أزرار الدروس الجاهزة بالأعلى (العصر الجاهلي، صدر الإسلام، العصر الأموي) لعرض ملخصاتها الرسمية فوراً! 📚`;
+                }
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 300);
+
+            chatMessages.appendChild(botMsgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        let selectedLessons = [];
+
+        function toggleLesson(element, lessonName) {
+            element.classList.toggle('selected');
+            if(selectedLessons.includes(lessonName)) {
+                selectedLessons = selectedLessons.filter(l => l !== lessonName);
+            } else {
+                selectedLessons.push(lessonName);
+            }
+        }
+
+        function startCustomQuiz() {
+            if(selectedLessons.length === 0) {
+                alert('من فضلك اختر عصراً أو درساً واحداً على الأقل للاختبار!');
+                return;
+            }
+
+            const countSelect = document.getElementById('questionCount').value;
+            const targetCount = parseInt(countSelect);
+
+            const quizContainer = document.getElementById('quizContainer');
+            const quizHeader = document.getElementById('quizHeader');
+            const quizQuestions = document.getElementById('quizQuestions');
+            
+            quizContainer.style.display = 'block';
+            quizHeader.innerText = `📝 اختبار تفاعلي في: ${selectedLessons.join(' - ')}`;
+            
+            // بنك أسئلة مستمد من الملفات الرسمية
+            const baseBank = [
+                {
+                    q: "ما المقصود بالعصر الجاهلي من حيث الفترة الزمنية؟",
+                    options: ["الفترة التي سبقت ظهور الإسلام بقرن ونصف تقريباً", "الفترة التي بعد الإسلام بقرون", "عصر الخلفاء الراشدين"],
+                    correct: 0
+                },
+                {
+                    q: "ما المقصود بشعر النقائض الذي ظهر في العصر الأموي؟",
+                    options: ["مدح الخلفاء فقط", "معارك شعرية امتزج فيها الفخر بالهجاء", "أشعار في الزهد والتقشف"],
+                    correct: 1
+                },
+                {
+                    q: "من أشهر شعراء الغزل البدوي العفيف في العصر الأموي:",
+                    options: ["عمر بن أبي ربيعة", "جميل بن معمر", "الفرزدق"],
+                    correct: 1
+                },
+                {
+                    q: "أي مما يلي يُعد من خصائص النثر في عصر صدر الإسلام؟",
+                    options: ["التاثر بالقرآن الكريم والحديث الشريف", "كثرة الأساطير والخرافات", "الابتعاد عن الدين"],
+                    correct: 0
+                },
+                {
+                    q: "ما هي البيئة المكانية لبلاد العرب في العصر الجاهلي؟",
+                    options: ["الجنوب الغربي من آسيا", "شمال أوروبا", "وسط أفريقيا"],
+                    correct: 0
+                }
+            ];
+
+            let html = "";
+            for (let i = 0; i < targetCount; i++) {
+                let currentQ = baseBank[i % baseBank.length];
+                html += `<div class="question-box">
+                    <div class="question-title">س${i + 1}: ${currentQ.q}</div>`;
+                currentQ.options.forEach((opt, optIndex) => {
+                    html += `<button class="option-btn" onclick="checkAnswer(this, ${optIndex}, ${currentQ.correct})">${opt}</button>`;
+                });
+                html += `</div>`;
+            }
+
+            quizQuestions.innerHTML = html;
+            quizContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function checkAnswer(btn, chosen, correct) {
+            const parent = btn.parentElement;
+            const buttons = parent.getElementsByClassName('option-btn');
+            
+            for(let b of buttons) {
+                b.disabled = true;
+            }
+
+            if(chosen === correct) {
+                btn.classList.add('correct');
+            } else {
+                btn.classList.add('wrong');
+                buttons[correct].classList.add('correct');
+            }
+        }
+    </script>
+</body>
+</html>
