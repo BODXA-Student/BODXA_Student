@@ -24,15 +24,9 @@
             text-align: right;
         }
 
-        #authScreen {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 90vh;
-        }
-
+        /* 🌟 شاشة اختيار السنة الدراسية */
         #welcomeScreen {
-            display: none;
+            display: flex;
             justify-content: center;
             align-items: center;
             min-height: 90vh;
@@ -75,7 +69,6 @@
             margin-bottom: 8px;
             color: var(--primary);
         }
-        .select-group input,
         .select-group select {
             width: 100%;
             padding: 14px;
@@ -87,7 +80,6 @@
             box-sizing: border-box;
             transition: all 0.3s;
         }
-        .select-group input:focus,
         .select-group select:focus {
             border-color: var(--secondary);
             outline: none;
@@ -121,20 +113,11 @@
             color: var(--danger);
             border: 1px solid #f87171;
         }
-        .switch-auth-link {
-            margin-top: 15px;
-            color: var(--secondary);
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 0.95rem;
-        }
-        .switch-auth-link:hover {
-            text-decoration: underline;
-        }
 
+        /* 🚀 المنصة الداخلية */
         #mainPlatform {
             display: none;
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
         }
         header {
@@ -173,39 +156,11 @@
             margin-bottom: 20px;
         }
         h3 { color: var(--primary); margin-top: 0; }
-        
-        .api-config-bar {
-            background: #f1f5f9;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        .api-config-bar input {
-            flex: 1;
-            padding: 8px 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            outline: none;
-        }
-        .api-config-bar button {
-            background: var(--accent);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: bold;
-        }
 
         .chat-container {
             display: flex;
             flex-direction: column;
-            height: 450px;
+            height: 500px;
             border: 1px solid #cbd5e1;
             border-radius: 12px;
             overflow: hidden;
@@ -290,8 +245,9 @@
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
-        .lesson-chip.selected {
+        .lesson-chip:hover, .lesson-chip.selected {
             background-color: var(--primary);
             color: white;
         }
@@ -340,70 +296,19 @@
         .option-btn:hover { background: #e2e8f0; color: var(--primary); }
         .option-btn.correct { background-color: #d1fae5 !important; border-color: var(--success) !important; color: #065f46 !important; font-weight: bold; }
         .option-btn.wrong { background-color: #fee2e2 !important; border-color: var(--danger) !important; color: #991b1b !important; }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border: 2px solid rgba(0,0,0,.1);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s ease-in-out infinite;
-            margin-left: 5px;
-            vertical-align: middle;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-    <!-- 🔐 1. شاشة تسجيل الدخول -->
-    <div id="authScreen">
+    <!-- 🌟 1. شاشة اختيار السنة الدراسية -->
+    <div id="welcomeScreen">
         <div class="welcome-card">
             <h1>BODXA Student</h1>
-            <div class="sub-title" id="authSubTitle">أنشئ حسابك الجديد للبدء في المنصة</div>
-            <h2 id="authHeading">إنشاء حساب جديد</h2>
-
-            <div id="signupFields">
-                <div class="select-group">
-                    <label>الاسم الثلاثي:</label>
-                    <input type="text" id="signupName" placeholder="اكتب اسمك الثلاثي">
-                </div>
-            </div>
-
-            <div class="select-group">
-                <label>رقم الهاتف:</label>
-                <input type="tel" id="authPhone" placeholder="01xxxxxxxx">
-            </div>
-
-            <div class="select-group">
-                <label>كلمة المرور:</label>
-                <input type="password" id="authPassword" placeholder="••••••••">
-            </div>
-
-            <div class="select-group" style="display: flex; align-items: center; gap: 10px;">
-                <input type="checkbox" id="rememberMe" style="width: auto; cursor: pointer;">
-                <label for="rememberMe" style="margin-bottom: 0; cursor: pointer; color: var(--text);">تذكرني تلقائياً</label>
-            </div>
-
-            <button class="enter-btn" id="authBtn" onclick="handleAuth()">إنشاء الحساب 🚀</button>
-            <div id="authAlert" class="alert-msg alert-error"></div>
-            
-            <div class="switch-auth-link" onclick="toggleAuthMode()">
-                <span id="switchText">لديك حساب بالفعل؟ تسجيل الدخول</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- 🌟 2. شاشة اختيار السنة الدراسية -->
-    <div id="welcomeScreen" style="display: none;">
-        <div class="welcome-card">
-            <h1>BODXA Student</h1>
-            <div class="sub-title">مساعدك الذكي لشرح المناهج، الأسئلة والاختبارات</div>
-            <h2>BODXA Student يرحب بكم</h2>
+            <div class="sub-title">منصة شرح المناهج والأسئلة (محتوى رسمي دقيق)</div>
+            <h2>اختر السنة الدراسية للبدء</h2>
             
             <div class="select-group">
-                <label for="gradeSelector">اختر السنة الدراسية:</label>
+                <label for="gradeSelector">السنة الدراسية:</label>
                 <select id="gradeSelector">
                     <option value="" disabled selected>-- اضغط لاختيار السنة الدراسية --</option>
                     <option value="1_secondary">أولى ثانوي</option>
@@ -417,55 +322,53 @@
         </div>
     </div>
 
-    <!-- 🚀 3. المنصة الداخلية -->
+    <!-- 🚀 2. المنصة الداخلية -->
     <div id="mainPlatform" style="display: none;">
         <header>
             <button class="back-home-btn" onclick="returnToHome()">⬅️ تغيير السنة</button>
             <h1>🚀 BODXA Student</h1>
-            <p>مساعدك الذكي لشرح المناهج والأسئلة واختبارات أولى ثانوي</p>
+            <p>المعلم الذكي - شرح مبسط لدروس المنهج وقاعدة المعرفة الرسمية</p>
         </header>
 
-        <!-- المعلم الذكي الشات الحقيقي -->
+        <!-- المعلم الذكي مع قاعدة البيانات المحلية للدروس -->
         <div class="card">
-            <h3>📖 المعلم الذكي (محادثة تفاعلية بـ AI الحقيقي)</h3>
+            <h3>📖 المعلم الذكي (اسئل عن أي درس أدبي وسيعرض الشرح فوراً)</h3>
             
-            <div class="api-config-bar">
-                <span style="font-size: 0.85rem; font-weight: bold; color: var(--primary);">مفتاح API:</span>
-                <input type="password" id="userApiKeyInput" placeholder="الصق مفتاح Gemini API هنا...">
-                <button onclick="saveUserApiKey()">حفظ المفتاح 🔑</button>
+            <div class="lessons-grid">
+                <div class="lesson-chip" onclick="askLesson('العصر الجاهلي')">🏛️ الأدب في العصر الجاهلي</div>
+                <div class="lesson-chip" onclick="askLesson('صدر الإسلام')">🌙 الأدب في عصر صدر الإسلام</div>
+                <div class="lesson-chip" onclick="askLesson('العصر الأموي')">📜 الأدب في العصر الأموي</div>
             </div>
 
             <div class="chat-container">
                 <div class="chat-messages" id="chatMessages">
-                    <div class="message bot">أهلاً بك يا بطل في منصة BODXA Student! 🎓 أنا معلمك الذكي المدعوم بالذكاء الاصطناعي. ضع مفتاح الـ API الخاص بك في الخانة بالأعلى واحفظه، ثم اسألني عن أي درس وسأقوم بشرحه لك فوراً بالتفصيل!</div>
+                    <div class="message bot">أهلاً بك يا بطل في منصة BODXA Student! 🎓 أنا معلمك الذكي. تم تحميل جميع دروس المنهج رسمياً في الذاكرة. اكتب اسم الدرس (مثل: العصر الجاهلي، صدر الإسلام، العصر الأموي) أو اسأل وسأعرض لك الشرح التفصيلي فوراً!</div>
                 </div>
                 <div class="chat-input-area">
-                    <input type="text" id="chatInput" placeholder="اكتب سؤالك أو اسم الدرس هنا..." onkeypress="handleKeyPress(event)">
+                    <input type="text" id="chatInput" placeholder="اكتب اسم الدرس (مثلاً: العصر الجاهلي)..." onkeypress="handleKeyPress(event)">
                     <button onclick="sendAIChatMessage()">إرسال 🚀</button>
                 </div>
             </div>
         </div>
 
-        <!-- قسم الاختبارات الذكي -->
+        <!-- بنك الأسئلة والاختبارات التفاعلية -->
         <div class="card">
             <h3>📝 بنك الأسئلة والاختبارات التفاعلية</h3>
-            <p>اختر درساً واحداً أو عدة دروس معاً:</p>
+            <p>اختر نطاق الاختبار:</p>
             
             <div class="lessons-grid">
-                <div class="lesson-chip" onclick="toggleLesson(this, 'الحضارة والتاريخ')">الحضارة والتاريخ</div>
-                <div class="lesson-chip" onclick="toggleLesson(this, 'مصادر دراسة الحضارات')">مصادر دراسة الحضارات</div>
-                <div class="lesson-chip" onclick="toggleLesson(this, 'عوامل قيام الحضارات')">عوامل قيام الحضارات</div>
+                <div class="lesson-chip" onclick="toggleLesson(this, 'العصر الجاهلي')">الاختبار في العصر الجاهلي</div>
+                <div class="lesson-chip" onclick="toggleLesson(this, 'صدر الإسلام')">الاختبار في عصر صدر الإسلام</div>
+                <div class="lesson-chip" onclick="toggleLesson(this, 'العصر الأموي')">الاختبار في العصر الأموي</div>
             </div>
 
             <div class="quiz-config">
-                <label for="questionCount">عدد الأسئلة الموضوعية:</label>
+                <label for="questionCount">عدد الأسئلة:</label>
                 <select id="questionCount">
-                    <option value="5">5 أسئلة</option>
-                    <option value="10" selected>10 أسئلة</option>
-                    <option value="15">15 سؤالاً</option>
-                    <option value="20">20 سؤالاً</option>
+                    <option value="3">3 أسئلة</option>
+                    <option value="5" selected>5 أسئلة</option>
                 </select>
-                <button class="action-btn" onclick="startCustomQuiz()" style="background-color: var(--accent);">ابدأ الاختبار 🎯</button>
+                <button class="enter-btn" onclick="startCustomQuiz()" style="width: auto; padding: 10px 20px; font-size: 1rem; background-color: var(--accent);">ابدأ الاختبار 🎯</button>
             </div>
 
             <div id="quizContainer" style="display:none;" class="quiz-card">
@@ -475,112 +378,44 @@
         </div>
     </div>
 
-    <!-- السكربت النهائي والمضبوط بدقة -->
+    <!-- السكربت البرمجي وقاعدة البيانات المدمجة للدروس -->
     <script>
-        let isSignupMode = true;
+        // قاعدة البيانات الشاملة لشرح الدروس المستخرجة من الملفات الرسمية
+        const lessonsDB = {
+            "العصر الجاهلي": `📚 **الأدب في العصر الجاهلي (عصر ما قبل الإسلام)**[cite: 7]
+1. **البيئة الزمانية:** الفترة التي سبقت ظهور الإسلام بقرن ونصف تقريبا.
+2. **البيئة المكانية:** تقع بلاد العرب في الجنوب الغربي من آسيا، وتضم خمسة أقسام: (الحجاز - تهامة - نجذ - اليمامة - اليمن)[cite: 7].
+3. **البيئة الاجتماعية:** انقسم العرب إلى (حضر) يعيشون في المدن مثل مكة، و(بدو) يرحلون وينتقلون. ويرجع أصل العرب إلى العدنانيين (الشمال) والقحطانيين (الجنوب)[cite: 7].
+4. **أبرز الصفات والمعارف:** الشجاعة، الكرم، الوفاء، الفروسية، الفراسة (الاستدلال بهيئة الإنسان على أخلاقه)، والعلم بالأنساب[cite: 8].
+5. **البيئة الدينية:** عرفوا اليهودية والنصرانية، وانتشرت بينهم الفوضى الدينية بعبادة الأصنام والشمس والقمر، مما مهد لنجاح الدعوة الإسلامية[cite: 8].
+6. **الشعر الجاهلي وسماته:** 
+   - القصيدة الجاهلية لم تعرف وحدة الموضوع، بل بدأت بالغزل وبكاء الأطلال، ثم الوصف، ثم الغرض الرئيس (مدح، هجاء، فخر) وتختم بالحكم[cite: 9].
+   - المعلقات: قصائد طوال قيلت في العصر الجاهلي وتعد من أجود الشعر[cite: 9].
+   - سمات ألفاظه: جودة استعمال الألفاظ، والقصد في المجاز، وعدم تعمد المحسنات البديعية[cite: 9].
+7. **النثر الجاهلي:** فنونه تشمل (الوصايا، الخطب، الحكم، الأمثال)[cite: 10, 11].`,
 
-        window.onload = function() {
-            const savedUser = localStorage.getItem('bodxa_logged_user');
-            if (savedUser) {
-                document.getElementById('authScreen').style.display = 'none';
-                document.getElementById('welcomeScreen').style.display = 'flex';
-            } else {
-                document.getElementById('authScreen').style.display = 'flex';
-                document.getElementById('welcomeScreen').style.display = 'none';
-            }
+            "صدر الإسلام": `🌙 **الأدب في عصر صدر الإسلام**[cite: 12]
+1. **الفترة الزمنية:** تبدأ من بعثة الرسول ﷺ إلى انتهاء عصر الخلفاء الراشدين عام 40 هـ[cite: 12].
+2. **أثر الإسلام في حياة العرب:** 
+   - غير حياتهم من الظلم إلى العدل، ومن القسوة إلى اللين والرحمة[cite: 12].
+   - وحد الأمة العربية تحت لواء الإسلام ودستور القرآن[cite: 12].
+   - اتجهت أنظارهم للفتوح الإسلامية لنشر الدين واللغة العربية[cite: 12].
+3. **سمات الشعر في عصر صدر الإسلام:**
+   - تهذيب ألفاظ اللغة بمحاكاة القرآن والسنة وتجنب الغريب[cite: 12].
+   - إدخال أغراض جديدة مثل شعر الفتوح والمغازي[cite: 13].
+4. **النثر في عصر صدر الإسلام:**
+   - ازدهرت الخطابة والرسائل والوصايا والنصائح متأثرة ببلغة القرآن الكريم والحديث الشريف[cite: 13].`,
 
-            const savedKey = localStorage.getItem('bodxa_gemini_api_key');
-            if (savedKey) {
-                document.getElementById('userApiKeyInput').value = savedKey;
-            }
+            "العصر الأموي": `📜 **الأدب في العصر الأموي (من 41 هـ إلى 132 هـ)**[cite: 14]
+1. **أسباب ازدهار الأدب:** كثرة النزاعات والحروب والصراعات الحزبية والسياسية[cite: 14].
+2. **أغراض الشعر الجديدة:**
+   - الشعر السياسي (يعبر عن النزاعات بين الأحزاب كالشيعة والخوارج والأمويين)[cite: 14].
+   - الغزل بنوعيه: البدوي العفيف (جميل بن معمر) والحضري الصريح (عمر بن أبي ربيعة)[cite: 14].
+   - النقائض: معارك شعرية امتزج فيها الفخر بالهجاء بين جرير والفرزدق والأخطل[cite: 14].
+3. **النثر الأموي:**
+   - الخطابة: ازدادت نتيجة الفتن والحروب والفتوحات[cite: 15].
+   - الكتابة والرسائل: ارتفع شأنها لحاجة الدولة واتساع رقعتها، وبرز كتاب ديوان الرسائل مثل عبد الحميد الكاتب[cite: 16].`
         };
-
-        function saveUserApiKey() {
-            const key = document.getElementById('userApiKeyInput').value.trim();
-            if (!key) {
-                alert('⚠️ من فضلك اكتب مفتاح صالح!');
-                return;
-            }
-            localStorage.setItem('bodxa_gemini_api_key', key);
-            alert('✅ تم حفظ مفتاح الـ API بنجاح في متصفحك!');
-        }
-
-        function toggleAuthMode() {
-            isSignupMode = !isSignupMode;
-            const signupFields = document.getElementById('signupFields');
-            const authHeading = document.getElementById('authHeading');
-            const authSubTitle = document.getElementById('authSubTitle');
-            const authBtn = document.getElementById('authBtn');
-            const switchText = document.getElementById('switchText');
-            const alertBox = document.getElementById('authAlert');
-            
-            alertBox.style.display = 'none';
-
-            if (isSignupMode) {
-                signupFields.style.display = 'block';
-                authHeading.innerText = 'إنشاء حساب جديد';
-                authSubTitle.innerText = 'أنشئ حسابك الجديد للبدء في المنصة';
-                authBtn.innerText = 'إنشاء الحساب 🚀';
-                switchText.innerText = 'لديك حساب بالفعل؟ تسجيل الدخول';
-            } else {
-                signupFields.style.display = 'none';
-                authHeading.innerText = 'تسجيل الدخول';
-                authSubTitle.innerText = 'مرحباً بك مجدداً في منصة BODXA';
-                authBtn.innerText = 'تسجيل الدخول 🚀';
-                switchText.innerText = 'ليس لديك حساب؟ إنشاء حساب جديد';
-            }
-        }
-
-        function handleAuth() {
-            const phone = document.getElementById('authPhone').value.trim();
-            const password = document.getElementById('authPassword').value.trim();
-            const rememberMe = document.getElementById('rememberMe').checked;
-            const alertBox = document.getElementById('authAlert');
-
-            if (!phone || !password) {
-                alertBox.style.display = 'block';
-                alertBox.innerText = '⚠️ من فضلك املأ جميع الحقول المطلوبة!';
-                return;
-            }
-
-            if (isSignupMode) {
-                const name = document.getElementById('signupName').value.trim();
-                if (!name) {
-                    alertBox.style.display = 'block';
-                    alertBox.innerText = '⚠️ من فضلك اكتب اسمك الثلاثي!';
-                    return;
-                }
-                const userData = { name, phone, password };
-                localStorage.setItem('bodxa_user_' + phone, JSON.stringify(userData));
-                if (rememberMe) {
-                    localStorage.setItem('bodxa_logged_user', JSON.stringify(userData));
-                }
-                moveToWelcomeScreen();
-            } else {
-                const storedUser = localStorage.getItem('bodxa_user_' + phone);
-                if (!storedUser) {
-                    alertBox.style.display = 'block';
-                    alertBox.innerText = '⚠️ رقم الهاتف غير مسجل، قم بإنشاء حساب جديد!';
-                    return;
-                }
-                const userData = JSON.parse(storedUser);
-                if (userData.password !== password) {
-                    alertBox.style.display = 'block';
-                    alertBox.innerText = '⚠️ كلمة المرور غير صحيحة!';
-                    return;
-                }
-                if (rememberMe) {
-                    localStorage.setItem('bodxa_logged_user', JSON.stringify(userData));
-                }
-                moveToWelcomeScreen();
-            }
-        }
-
-        function moveToWelcomeScreen() {
-            document.getElementById('authScreen').style.display = 'none';
-            document.getElementById('welcomeScreen').style.display = 'flex';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
 
         function checkGradeSelection() {
             const selector = document.getElementById('gradeSelector');
@@ -593,15 +428,9 @@
                 return;
             }
 
-            if (selectedValue === '1_secondary') {
-                document.getElementById('welcomeScreen').style.display = 'none';
-                document.getElementById('mainPlatform').style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            } else {
-                alertMsg.style.display = 'block';
-                alertMsg.className = 'alert-msg alert-error';
-                alertMsg.innerText = 'عذراً، لم تتوفر المناهج الخاصة بهذه السنة الآن، ستتوفر قريباً.';
-            }
+            document.getElementById('welcomeScreen').style.display = 'none';
+            document.getElementById('mainPlatform').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function returnToHome() {
@@ -618,19 +447,19 @@
             }
         }
 
-        async function sendAIChatMessage() {
-            const apiKey = localStorage.getItem('bodxa_gemini_api_key') || document.getElementById('userApiKeyInput').value.trim();
+        function askLesson(lessonName) {
+            document.getElementById('chatInput').value = lessonName;
+            sendAIChatMessage();
+        }
+
+        function sendAIChatMessage() {
             const inputField = document.getElementById('chatInput');
             const chatMessages = document.getElementById('chatMessages');
             const userText = inputField.value.trim();
 
             if (!userText) return;
 
-            if (!apiKey) {
-                alert('⚠️ من فضلك ضع مفتاح Gemini API في الخانة بالأعلى واحفظه أولاً!');
-                return;
-            }
-
+            // إضافة رسالة المستخدم
             const userMsgDiv = document.createElement('div');
             userMsgDiv.className = 'message user';
             userMsgDiv.innerText = userText;
@@ -639,42 +468,30 @@
             inputField.value = '';
             chatMessages.scrollTop = chatMessages.scrollHeight;
 
+            // رسالة البوت والبحث في قاعدة البيانات المحلية
             const botMsgDiv = document.createElement('div');
             botMsgDiv.className = 'message bot';
-            botMsgDiv.innerHTML = `<span class="loading-spinner"></span> جارٍ إعداد الشرح المفصل من المعلم الذكي...`;
+            
+            setTimeout(() => {
+                let foundContent = null;
+                // البحث الذكي في مفاتيح الدروس
+                for (let key in lessonsDB) {
+                    if (userText.includes(key) || key.includes(userText)) {
+                        foundContent = lessonsDB[key];
+                        break;
+                    }
+                }
+
+                if (foundContent) {
+                    botMsgDiv.innerHTML = foundContent;
+                } else {
+                    botMsgDiv.innerHTML = `عذراً يا بطل! لم أجد شرحاً مطابقاً لـ ("${userText}"). يمكنك الضغط على أزرار الدروس الجاهزة بالأعلى (العصر الجاهلي، صدر الإسلام، العصر الأموي) لعرض ملخصاتها الرسمية فوراً! 📚`;
+                }
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 300);
+
             chatMessages.appendChild(botMsgDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            try {
-                // استخدام أحدث موديل مدعوم ومستقر تماماً في v1beta
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: `أنت معلم ذكي ومحترف لمنصة تعليمية ثانوية مصرية اسمها BODXA Student. أجب عن هذا السؤال أو اشرح هذا الدرس للطالب بطريقة مبسطة، عميقة، ومنظمة بالنقاط والأمثلة: ${userText}`
-                            }]
-                        }]
-                    })
-                });
-
-                const data = await response.json();
-
-                if (data.candidates && data.candidates[0].content.parts[0].text) {
-                    botMsgDiv.innerText = data.candidates[0].content.parts[0].text;
-                } else if (data.error) {
-                    botMsgDiv.innerText = "خطأ من جوجل: " + data.error.message;
-                } else {
-                    botMsgDiv.innerText = "عذراً يا بطل، تأكد من صحة مفتاح الـ API أو صلاحيته.";
-                }
-            } catch (error) {
-                botMsgDiv.innerText = "عذراً، حدث خطأ في الاتصال بالشبكة. حاول مرة أخرى.";
-            } finally {
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
         }
 
         let selectedLessons = [];
@@ -690,7 +507,7 @@
 
         function startCustomQuiz() {
             if(selectedLessons.length === 0) {
-                alert('من فضلك اختر درساً واحداً على الأقل من أزرار الدروس بالأعلى!');
+                alert('من فضلك اختر عصراً أو درساً واحداً على الأقل للاختبار!');
                 return;
             }
 
@@ -702,33 +519,34 @@
             const quizQuestions = document.getElementById('quizQuestions');
             
             quizContainer.style.display = 'block';
-            quizHeader.innerText = `📝 اختبار تفاعلي للدروس: ${selectedLessons.join(' - ')} (إجمالي الأسئلة: ${targetCount})`;
+            quizHeader.innerText = `📝 اختبار تفاعلي في: ${selectedLessons.join(' - ')}`;
             
+            // بنك أسئلة مستمد من الملفات الرسمية
             const baseBank = [
                 {
-                    q: "أي مما يلي يُعد من المصادر الأولية لدراسة الحضارات؟",
-                    options: ["الأساطير", "النقوش والآثار", "كتب الفلاسفة المحدثين", "المقالات الحديثة"],
-                    correct: 1
-                },
-                {
-                    q: "قامت الحضارة المصرية القديمة بشكل أساسي بفضل:",
-                    options: ["نهر النيل والموقع الجغرافي", "المحيط الأطلسي", "الغابات الاستوائية", "المناخ القاري البارد"],
+                    q: "ما المقصود بالعصر الجاهلي من حيث الفترة الزمنية؟",
+                    options: ["الفترة التي سبقت ظهور الإسلام بقرن ونصف تقريباً", "الفترة التي بعد الإسلام بقرون", "عصر الخلفاء الراشدين"],
                     correct: 0
                 },
                 {
-                    q: "تتمثل المصادر الثانوية في:",
-                    options: ["البرديات الأصلية", "الآثار القائمة", "كتابات المؤرخين والفلاسفة", "النقوش الغائر والبارزة"],
-                    correct: 2
+                    q: "ما المقصود بشعر النقائض الذي ظهر في العصر الأموي؟",
+                    options: ["مدح الخلفاء فقط", "معارك شعرية امتزج فيها الفخر بالهجاء", "أشعار في الزهد والتقشف"],
+                    correct: 1
                 },
                 {
-                    q: "العامل البشري الأساسي في قيام الحضارة المصرية هو:",
-                    options: ["كفاح الإنسان المصري", "كثرة الأمطار", "وجود البحار الفاصلة", "البراكين النشطة"],
+                    q: "من أشهر شعراء الغزل البدوي العفيف في العصر الأموي:",
+                    options: ["عمر بن أبي ربيعة", "جميل بن معمر", "الفرزدق"],
+                    correct: 1
+                },
+                {
+                    q: "أي مما يلي يُعد من خصائص النثر في عصر صدر الإسلام؟",
+                    options: ["التاثر بالقرآن الكريم والحديث الشريف", "كثرة الأساطير والخرافات", "الابتعاد عن الدين"],
                     correct: 0
                 },
                 {
-                    q: "علم يدرس الماضي لفهم الحاضر واستشراف المستقبل هو:",
-                    options: ["علم الفلك", "علم التاريخ", "علم الجغرافيا", "علم الأحياء"],
-                    correct: 1
+                    q: "ما هي البيئة المكانية لبلاد العرب في العصر الجاهلي؟",
+                    options: ["الجنوب الغربي من آسيا", "شمال أوروبا", "وسط أفريقيا"],
+                    correct: 0
                 }
             ];
 
