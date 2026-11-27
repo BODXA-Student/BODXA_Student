@@ -24,7 +24,7 @@
             text-align: right;
         }
 
-        /* 🌟 شاشة اختيار السنة الدراسية */
+        /* 🌟 1. شاشة اختيار السنة الدراسية */
         #welcomeScreen {
             display: flex;
             justify-content: center;
@@ -114,7 +114,7 @@
             border: 1px solid #f87171;
         }
 
-        /* 🚀 المنصة الداخلية */
+        /* 🚀 2. المنصة الداخلية */
         #mainPlatform {
             display: none;
             max-width: 850px;
@@ -157,77 +157,34 @@
         }
         h3 { color: var(--primary); margin-top: 0; }
 
-        .chat-container {
+        /* شاشة عرض الشرح */
+        .display-container {
             display: flex;
             flex-direction: column;
-            height: 500px;
+            height: 480px;
             border: 1px solid #cbd5e1;
             border-radius: 12px;
             overflow: hidden;
             background: #f8fafc;
         }
-        .chat-messages {
+        .display-content {
             flex: 1;
-            padding: 15px;
+            padding: 20px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
-        .message {
-            max-width: 85%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            line-height: 1.7;
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
-        .message.bot {
+        .lesson-view-box {
             background: white;
             color: var(--text);
-            align-self: flex-start;
+            padding: 20px;
+            border-radius: 12px;
             border: 1px solid #e2e8f0;
-            border-bottom-right-radius: 2px;
-        }
-        .message.user {
-            background: var(--secondary);
-            color: white;
-            align-self: flex-end;
-            border-bottom-left-radius: 2px;
-        }
-        .chat-input-area {
-            display: flex;
-            padding: 12px;
-            background: white;
-            border-top: 1px solid #cbd5e1;
-            gap: 10px;
-        }
-        .chat-input-area input {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            font-family: inherit;
-            font-size: 0.95rem;
-            outline: none;
-        }
-        .chat-input-area input:focus {
-            border-color: var(--secondary);
-        }
-        .chat-input-area button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-family: inherit;
-            transition: background 0.3s;
-        }
-        .chat-input-area button:hover {
-            background: var(--secondary);
+            font-size: 1rem;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
         }
 
         .lessons-grid {
@@ -330,23 +287,23 @@
             <p>المعلم الذكي - شرح مبسط لدروس المنهج وقاعدة المعرفة الرسمية</p>
         </header>
 
-        <!-- المعلم الذكي مع قاعدة البيانات المحلية للدروس -->
+        <!-- المعلم الذكي القائم على القائمة المنسدلة العريضة -->
         <div class="card">
-            <h3>📖 المعلم الذكي (اسأل عن أي درس أدبي وسيعرض الشرح فوراً)</h3>
+            <h3>📖 المعلم الذكي (شرح الدروس الرسمية)</h3>
             
-            <div class="lessons-grid">
-                <div class="lesson-chip" onclick="askLesson('العصر الجاهلي')">🏛️ الأدب في العصر الجاهلي</div>
-                <div class="lesson-chip" onclick="askLesson('صدر الإسلام')">🌙 الأدب في عصر صدر الإسلام</div>
-                <div class="lesson-chip" onclick="askLesson('العصر الأموي')">📜 الأدب في العصر الأموي</div>
+            <div class="select-group">
+                <label for="lessonDropdown">اختر اسم الدرس:</label>
+                <select id="lessonDropdown" onchange="showLessonExplanation()">
+                    <option value="" disabled selected>-- اختر الدرس من القائمة لعرض الشرح --</option>
+                    <option value="العصر الجاهلي">🏛️ الأدب في العصر الجاهلي</option>
+                    <option value="صدر الإسلام">🌙 الأدب في عصر صدر الإسلام</option>
+                    <option value="العصر الأموي">📜 الأدب في العصر الأموي</option>
+                </select>
             </div>
 
-            <div class="chat-container">
-                <div class="chat-messages" id="chatMessages">
-                    <div class="message bot">أهلاً بك يا بطل في منصة BODXA Student! 🎓 أنا معلمك الذكي. تم تحميل جميع دروس المنهج رسمياً في الذاكرة. اكتب اسم الدرس أو اختر من الأزرار بالأعلى وسأعرض لك الشرح التفصيلي فوراً!</div>
-                </div>
-                <div class="chat-input-area">
-                    <input type="text" id="chatInput" placeholder="اكتب اسم الدرس (مثلاً: العصر الجاهلي)..." onkeypress="handleKeyPress(event)">
-                    <button onclick="sendAIChatMessage()">إرسال 🚀</button>
+            <div class="display-container">
+                <div class="display-content" id="displayContent">
+                    <div class="lesson-view-box">أهلاً بك يا بطل في منصة BODXA Student! 🎓 اختر الدرس من القائمة المنسدلة بالأعلى وسيقوم المعلم الذكي بعرض الشرح التفصيلي فوراً!</div>
                 </div>
             </div>
         </div>
@@ -449,54 +406,14 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendAIChatMessage();
+        function showLessonExplanation() {
+            const dropdown = document.getElementById('lessonDropdown');
+            const selectedLesson = dropdown.value;
+            const displayContent = document.getElementById('displayContent');
+
+            if (lessonsDB[selectedLesson]) {
+                displayContent.innerHTML = `<div class="lesson-view-box">${lessonsDB[selectedLesson]}</div>`;
             }
-        }
-
-        function askLesson(lessonName) {
-            document.getElementById('chatInput').value = lessonName;
-            sendAIChatMessage();
-        }
-
-        function sendAIChatMessage() {
-            const inputField = document.getElementById('chatInput');
-            const chatMessages = document.getElementById('chatMessages');
-            const userText = inputField.value.trim();
-
-            if (!userText) return;
-
-            const userMsgDiv = document.createElement('div');
-            userMsgDiv.className = 'message user';
-            userMsgDiv.innerText = userText;
-            chatMessages.appendChild(userMsgDiv);
-
-            inputField.value = '';
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-
-            const botMsgDiv = document.createElement('div');
-            botMsgDiv.className = 'message bot';
-            
-            setTimeout(() => {
-                let foundContent = null;
-                for (let key in lessonsDB) {
-                    if (userText.includes(key) || key.includes(userText)) {
-                        foundContent = lessonsDB[key];
-                        break;
-                    }
-                }
-
-                if (foundContent) {
-                    botMsgDiv.innerHTML = foundContent;
-                } else {
-                    botMsgDiv.innerHTML = `عذراً يا بطل! لم أجد شرحاً مطابقاً لـ ("${userText}"). يمكنك الضغط على أزرار الدروس الجاهزة بالأعلى (العصر الجاهلي، صدر الإسلام، العصر الأموي) لعرض ملخصاتها الرسمية فوراً! 📚`;
-                }
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 300);
-
-            chatMessages.appendChild(botMsgDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
         let selectedLessons = [];
